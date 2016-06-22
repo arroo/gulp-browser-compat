@@ -1,0 +1,28 @@
+{
+	"name": "gulp-browser-compat",
+	"version": "1.0.0",
+	"description": "gulp plugin that allows for comparison against known browser compatibility issues",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mozesmagyar/gulp-browser-compat.git"
+	},
+	"keywords": [
+		"compatibility",
+		"compatible",
+		"browser",
+		"check",
+		"verification",
+		"verify"
+	],
+	"author": "Mozes Magyar",
+	"license": "MIT",
+	"dependencies": {
+		"request": "2.72.0",
+		"gulp-util": "^3.0.7",
+		"through2": "^2.0.1"
+	}
+}
