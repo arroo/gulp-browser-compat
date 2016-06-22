@@ -4,7 +4,7 @@ gulp-browser-compat provides a method for checking against known browser compati
 package.json:
 ```
     "dependencies": {
-        "gulp-browser-compat":"git+ssh://git@gitlab.internal.casalemedia.com:mozes.magyar/gulp-browser-compat.git#master"
+        "gulp-browser-compat":"git+https://github.com/mozesmagyar/gulp-browser-compat.git#master"
     }
 ```
 gulpfile.js:
