@@ -1,6 +1,6 @@
 {
 	"name": "gulp-browser-compat",
-	"version": "1.0.0",
+	"version": "1.0.0b",
 	"description": "gulp plugin that allows for comparison against known browser compatibility issues",
 	"main": "index.js",
 	"scripts": {
