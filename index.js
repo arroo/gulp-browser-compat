@@ -129,7 +129,7 @@ function checkBrowserVersionForCompatibilityIssues(match, feature, browser, brow
 		switch (browserStatus) {
 			case 'n':
 				// no support for this feature in this browser and this needs to pass makes it a failure
-				if (typeof browserConf.fail !== 'undefined' && (browserConf.report === versionRange[0] || browserConf.fail !== versionHigher([versionRange[0], conf[a].fail]))) {
+				if (typeof browserConf.fail !== 'undefined' && (browserConf.report === versionRange[0] || browserConf.fail !== versionHigher([versionRange[0], browserConf.fail]))) {
 					problems.failure = true;
 				}
 			case 'u':
