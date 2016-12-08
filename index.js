@@ -381,12 +381,22 @@ function parseCompatFiles(src, conf, files) {
 			// make backup copy of file
 			fs.createReadStream(newFilename).pipe(fs.createWriteStream(filename));
 
-		} catch (err) {
+		} catch (parseError) {
+			gutil.log('unable to parse file "' + filename + '.new" (downloaded from ' + fileInfo.url + '), reason: ', parseError);
 			// use backup copy of file
-			fileInfo.data = JSON.parse(fs.readFileSync(filename));
+			try {
+				fileInfo.data = JSON.parse(fs.readFileSync(filename));
+			} catch (backupFileError) {
+				gutil.log('skipping missing file "' + filename + '"');
+				return false;
+			}
 		}
 
+
+
 		return fileInfo;
+	}).filter(function (fileInfo) {
+		return fileInfo !== false;
 	});
 
 	// get information for browsers for reporting
@@ -455,12 +465,12 @@ function getCompatData (src, conf) {
 		'file': 'additional.json',
 		'extension': 'data',
 		'strict':true,
-		'url': 'https://raw.githubusercontent.com/tbusser/jscc/develop/src/files/static/data/additional.json'
+		'url': 'https://raw.githubusercontent.com/tbusser/jscc/develop/src/static/data/additional.json'
 	}, {
 		'file': 'caniuse2.json',
 		'extension' : 'data',
 		'strict':true,
-		'url': 'https://raw.githubusercontent.com/tbusser/jscc/develop/src/files/static/data/caniuse2.json'
+		'url': 'https://raw.githubusercontent.com/tbusser/jscc/develop/src/static/data/caniuse2.json'
 	}, {
 		'file': 'data.json',
 		'extension' : 'data',
@@ -486,10 +496,18 @@ function getCompatData (src, conf) {
 		}
 	}();
 
+	var fileDownloaded = function (err) {
+		if (err) {
+			gutil.log('unable to download from "' + this.url + '", using last-downloaded file: ', err);
+		}
+
+		incrementDownloadCount();
+	}
+
 	// download each data file
 	files.forEach(function (fileInfo) {
 		try {
-			request(fileInfo.url, incrementDownloadCount).pipe(fs.createWriteStream('node_modules/gulp-browser-compat/' + fileInfo.file + '.new'));;
+			request(fileInfo.url, fileDownloaded.bind({url: fileInfo.url})).pipe(fs.createWriteStream('node_modules/gulp-browser-compat/' + fileInfo.file + '.new'));
 		} catch (e) {
 
 			gutil.log('unable to download from "' + fileInfo.url + '", using last-downloaded file: ', e);
